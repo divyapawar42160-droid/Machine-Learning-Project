@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us - Health Advisor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+  body {
+    background-color: #121417;
+    color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.7)),
+              url("{{ url_for('static', filename='image.jpg') }}") no-repeat center center / cover;
+  }
+
+  nav.navbar {
+  background: #1f2937;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-weight: 600;
+  padding: 0.7rem 0;
+}
+
+.navbar-brand {
+  color: #60a5fa !important;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  user-select: none;
+}
+
+.navbar-nav .nav-link {
+  color: #cbd5e1 !important;
+  font-size: 1.05rem;
+  margin-left: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+  color: #93c5fd !important;
+  background: rgba(147, 197, 253, 0.12);
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+  main.container {
+    background-color: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  max-width: 900px;
+  margin: 70px auto 80px;
+  border-radius: 16px;
+  padding: 40px 50px;
+  box-shadow: 0 6px 24px rgba(94, 234, 212, 0.18);
+  user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  h2.section-title {
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #60a5fa;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.08em;
+    border-bottom: 3px solid #60a5fa;
+    padding-bottom: 8px;
+    text-align: center;
+  }
+
+  h4 {
+    color: #60a5fa;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 12px;
+    user-select: none;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    line-height: 1.75;
+    margin-bottom: 1.4rem;
+  }
+
+  a {
+    color: #22d3ee;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  a:hover {
+    color: #67e8f9;
+  }
+
+  /* Email specific styling */
+  .email-link {
+    color: #60a5fa;
+    font-weight: 600;
+  }
+  .email-link:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  .social-icons a {
+    font-size: 1.6rem;
+    color: #22d3ee;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .social-icons a:hover {
+    transform: scale(1.1);
+    color: #5eead4;
+  }
+
+  @media (max-width: 768px) {
+    main.container {
+      padding: 30px 25px;
+      margin: 50px 15px 60px;
+    }
+
+    h2.section-title {
+      font-size: 2rem;
+    }
+
+    h4 {
+      font-size: 1.2rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+  </style>
+
+  <script src="https://kit.fontawesome.com/a2d5ad8b59.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+   <div class="container-fluid ps-3">
+      <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 40px; width: 40px; margin-right: 2px; margin-left: 2px;" />
+Health Advisor</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          {% if session.get('user_id') %}
+            <a class="nav-link" href="{{ url_for('index') }}">🏠 Home</a>
+          {% else %}
+            <a class="nav-link" href="{{ url_for('index2') }}">🏠 Home</a>
+          {% endif %}
+        </li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">ℹ️ About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">📰 Blog</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('contact') }}">📞 Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Contact Info Section -->
+<main class="container">
+  <h2 class="section-title">Contact Us</h2>
+
+  <p>Have questions or need assistance? We're here to help!</p>
+
+  <h4>Customer Support</h4>
+  <p>Our dedicated customer support team is available to assist you with any inquiries or issues you may have. Whether it's a technical question, feedback, or a general inquiry, we're just a message away.</p>
+
+  <h4>Get in Touch</h4>
+  <p>Feel free to reach out to us via email or phone. We value your feedback and are committed to providing you with the best possible experience.</p>
+  <p><strong>Email:</strong> <a href="mailto:health.advisor@gmail.com" class="email-link">health.advisor@gmail.com</a></p>
+
+  <h4>Stay Connected</h4>
+  <p>Follow us for updates and health tips:</p>
+  <div class="social-icons">
+    <a href="#"><i class="fas fa-globe"></i></a>
+    <a href="#"><i class="fas fa-envelope"></i></a>
+    <a href="#"><i class="fas fa-comment-dots"></i></a>
+  </div>
+
+  <h4>Location</h4>
+  <p>Dhule, Maharashtra</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

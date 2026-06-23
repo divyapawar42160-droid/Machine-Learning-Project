@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us - Health Advisor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+  background-color: #121417;
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.7)),
+              url("{{ url_for('static', filename='image.jpg') }}") no-repeat center center / cover;
+}
+
+nav.navbar {
+  background: #1f2937;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-weight: 600;
+  padding: 0.7rem 0;
+}
+
+.navbar-brand {
+  color: #60a5fa !important;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  user-select: none;
+}
+
+.navbar-nav .nav-link {
+  color: #cbd5e1 !important;
+  font-size: 1.05rem;
+  margin-left: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+  color: #93c5fd !important;
+  background: rgba(147, 197, 253, 0.12);
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+main.container {
+   background-color: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  max-width: 900px;
+  margin: 70px auto 80px;
+  border-radius: 16px;
+  padding: 40px 50px;
+  box-shadow: 0 6px 24px rgba(94, 234, 212, 0.18);
+  user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+h2.section-title {
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #60a5fa;
+  margin-bottom: 1rem;
+  letter-spacing: 0.08em;
+  border-bottom: 3px solid #60a5fa;
+  padding-bottom: 8px;
+  user-select: none;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 48px;
+  margin-bottom: 12px;
+  color: #60a5fa;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.section-header span.icon {
+  font-size: 1.6rem;
+  color: #60a5fa;
+  user-select: none;
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.65;
+  color: #94a3b8;
+  margin-bottom: 1.6rem;
+}
+
+@media (max-width: 768px) {
+  main.container {
+    padding: 30px 25px;
+    margin: 50px 15px 60px;
+  }
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 576px) {
+  h2.section-title {
+    font-size: 2rem;
+  }
+  p {
+    font-size: 1rem;
+  }
+  .section-header {
+    font-size: 1.15rem;
+  }
+  .section-header span.icon {
+    font-size: 1.3rem;
+  }
+}
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+   <div class="container-fluid ps-3">
+      <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 40px; width: 40px; margin-right: 2px; margin-left: 2px;" />
+Health Advisor</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          {% if session.get('user_id') %}
+            <a class="nav-link" href="{{ url_for('index') }}">🏠 Home</a>
+          {% else %}
+            <a class="nav-link" href="{{ url_for('index2') }}">🏠 Home</a>
+          {% endif %}
+        </li>
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('about') }}">ℹ️ About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">📰 Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">📞 Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container" role="main" aria-label="About Medical Health Center">
+  <h2 class="section-title">About Medical Health Center</h2>
+
+  <div class="about-content">
+    <section>
+      <div class="section-header"><span class="icon">👁️‍🗨️</span> Our Vision</div>
+      <p>We envision a world where healthcare information is accessible, clear, and actionable for everyone. Our platform empowers individuals by providing AI-powered insights and educational resources to promote better health outcomes globally.</p>
+
+      <div class="section-header"><span class="icon">👥</span> Who We Are</div>
+      <p>A team of dedicated healthcare professionals, data scientists, and technology enthusiasts collaborating to create an intelligent platform that bridges the gap between patients and reliable medical knowledge.</p>
+
+      <div class="section-header"><span class="icon">🎯</span> Our Mission</div>
+      <p>To provide accurate, AI-driven diagnostic support alongside educational materials, enabling users to understand their symptoms and take proactive steps towards better health.</p>
+    </section>
+
+    <section>
+      <div class="section-header"><span class="icon">⚙️</span> How We Do It</div>
+      <p>Leveraging machine learning models trained on extensive medical datasets, our system analyzes your symptoms to deliver precise predictions. We complement this with detailed information about conditions, treatments, and lifestyle advice.</p>
+
+      <div class="section-header"><span class="icon">💙</span> Your Well-being, Our Priority</div>
+      <p>We prioritize your health by combining cutting-edge technology with compassion. Our platform is designed to be user-friendly and supportive, guiding you through your health journey every step of the way.</p>
+
+      <div class="section-header"><span class="icon">🚀</span> Join Us</div>
+      <p>Explore our platform and discover the power of AI-enhanced healthcare. Together, we can revolutionize access to quality health information and support you in making informed decisions.</p>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

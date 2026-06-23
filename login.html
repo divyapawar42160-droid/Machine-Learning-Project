@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Register form</title>
+
+    <!--Boxicons CDN-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Flash Styling -->
+    <style>
+        .flash-message {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 300px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            z-index: 9999;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .flash-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .flash-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+
+
+
+    <!--Custom CSS-->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --white: #ffffff;
+    --black: #1a1e2e;        
+    --lightBlue: #5DA9FF;    
+    --textLight: #cccccc;    
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.7)),
+              url("{{ url_for('static', filename='image.jpg') }}") no-repeat center center / cover;
+    
+}
+
+.wrapper{
+    position: relative;
+    width: 750px;
+    height: 450px;
+    background: var(--white);
+    border: 2px solid var(--black);
+    border-radius: 10px;
+    box-shadow: 0 0 20px var(--black);
+    overflow: hidden;
+}
+
+
+.wrapper .form-box{
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.wrapper .form-box.login{
+    left: 0;
+    padding: 0 60px 0 40px;
+}
+
+.form-box h2{
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 32px;
+    color: var(--black);
+    text-align: center;
+}
+
+.form-box h2::after{
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: var(--black);
+}
+
+.form-box .input-box{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 25px 0;
+}
+
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: var(--black);
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid var(--black);
+    transition: .5s;
+    padding-right: 23px;
+}
+
+.input-box input:focus,
+.input-box input:valid{
+    border-bottom-color: var(--lightBulue);
+}
+
+.input-box label{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--black);
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+
+.input-box input:focus~label,
+.input-box input:valid~label{
+    top: -5px;
+    color: var(--lightBulue);
+}
+
+
+.input-box i{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    font-size: 18px;
+    transition: 0.5s;
+}
+
+.input-box input:focus~i,
+.input-box input:valid~i{
+    color: var(--lightBulue);
+}
+
+form button{
+    width: 100%;
+    height: 45px;
+    background-color: var(--black);
+    color: var(--white);
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+form button:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+form .linkTxt{
+    font-size: 14px;
+    color: var(--black);
+    text-align: center;
+    margin: 20px 0 10px;
+}
+
+.linkTxt p a{
+    color: blue;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.wrapper .form-box.login .animation{
+    transform: translateX(0);
+    transition: 0.7s ease;
+    opacity: 1;
+    filter: blur(0);
+    transition-delay: calc(.1s * var(--j));
+}
+
+.wrapper.active .form-box.login .animation{
+    transform: translateX(-120%);
+    opacity: 0;
+    filter: blur(10px);
+    transition-delay: calc(.1s * var(--i));
+}
+
+.wrapper .info-text{
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.wrapper .info-text.login{
+    right: 0;
+    text-align: right;
+    padding: 0 40px 60px 150px;
+
+}
+
+.wrapper .info-text h2{
+    font-size: 36px;
+    color: var(--white);
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+.wrapper .info-text p{
+    font-size: 16px;
+    color: var(--white);
+}
+
+.wrapper .info-text.login .animation{
+    transform: translateX(0);
+    opacity: 1;
+    filter: blur(0);
+    transition: 0.7s ease;
+    transition-delay: calc(.1s * var(--j));
+}
+.wrapper.active .info-text.login .animation{
+    transform: translateX(120px);
+    opacity: 0;
+    filter: blur(10px);
+    transition: 0.7s ease;
+    transition-delay: calc(.1s * var(--i));
+}
+
+.wrapper .rotate-bg{
+    position: absolute;
+    top: -4px;
+    right: 0;
+    width: 850px;
+    height: 600px;
+    background: #000;
+    transform: rotate(10deg) skewY(40deg);
+    transform-origin: bottom right;
+    transition: 1.5s ease;
+    transition-delay: 1.6s;
+}
+
+.wrapper.active .rotate-bg{
+    transform: rotate(0) skewY(0);
+    transition-delay: 0.5s;
+}
+
+.wrapper .form-box.register{
+    padding: 0 40px 0 60px;
+    right: 0;
+}
+
+.wrapper.active .form-box.register{
+    pointer-events: auto;
+}
+
+.wrapper .form-box.register .animation{
+    transform: translateX(120%);
+    opacity: 0;
+    filter: blur(10px);
+    transition: .7s ease;
+    transition-delay: calc(.1s * var(--j));
+}
+
+.wrapper.active .form-box.register .animation{
+    transform: translateX(0);
+    opacity: 1;
+    filter: blur(0);
+    transition-delay: calc(.1s * var(--i));
+}
+
+.wrapper .info-text.register{
+    left: 0;
+    text-align: left;
+    padding: 0 150px 60px 40px;
+    pointer-events: none;
+}
+
+.wrapper.active .info-text.register{
+    pointer-events: auto;
+}
+
+.wrapper .info-text.register .animation{
+    transform: translateX(-120%);
+    opacity: 0;
+    filter: blur(10px);
+    transition: .7s ease;
+    transition-delay: calc(.1s * var(--j));
+}
+
+.wrapper.active .info-text.register .animation{
+    transform: translateX(0);
+    opacity: 1;
+    filter: blur(0);
+    transition-delay: calc(.1s * var(--i));
+}
+
+.wrapper .rotate-bg2{
+    position: absolute;
+    top: 100%;
+    left: 250px;
+    width: 850px;
+    height: 700px;
+    background: var(--white);
+    transform: rotate(0) skewY(0);
+    transform-origin: bottom left;
+    transition: 1.5s ease;
+    transition-delay: 0.5s;
+}
+
+.wrapper.active .rotate-bg2{
+    transform: rotate(-11deg) skewY(-40deg);
+    transition-delay: 1.2s;
+}
+    </style>
+
+</head>
+<body>
+     <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message flash-{{ 'error' if category == 'error' else category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="wrapper">
+
+        <span class="rotate-bg"></span>
+        <span class="rotate-bg2"></span>
+
+        <!-- Login Form -->
+        <div class="form-box login">
+            <h2 class="title animation" style="--i:1; --j:21; display: flex; align-items:center; justify-content:center; gap:5px;">
+    <img src="{{ url_for('static', filename='logo1.png') }}" alt="Logo" style="height: 40px;">
+    Login
+</h2>
+
+            <form action="/login" method="POST">
+                <input type="hidden" name="form_type" value="login">
+                <div class="input-box animation" style="--i:1; --j:22">
+                    <input type="email" name="email" required>
+                    <label>Email</label>
+                    <i class='bx bxs-user'></i>
+                </div>
+
+                <div class="input-box animation" style="--i:2; --j:23">
+                    <input type="password" name="password" required>
+                    <label>Password</label>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                
+
+                <button type="submit" class="btn animation" style="--i:3; --j:24">Login</button>
+
+                <div class="linkTxt animation" style="--i:5; --j:25">
+                    <p>Don't have an account? <a href="#" class="register-link">Sign Up</a></p>
+                    
+                </div>
+                <div class="linkTxt animation" style="--i:3; --j:24; text-align: center; margin-top: -10px; margin-bottom: 10px;">
+        <a href="/forgot-password" style="font-size: 0.9em; color: blue; text-decoration: none;">Forgot Password?</a>
+    </div>
+            </form>
+        </div>
+
+        <div class="info-text login">
+            <h2 class="animation" style="--i:0; --j:20">Welcome Back!</h2>
+            <p class="animation" style="--i:1; --j:21">Please login to get you diagnosis</p>
+        </div>
+
+        <!-- Register Form -->
+        <div class="form-box register">
+            <h2 class="title animation" style="--i:17; --j:0">Sign Up</h2>
+            <form action="/login" method="POST">
+                <input type="hidden" name="form_type" value="register">
+                <div class="input-box animation" style="--i:18; --j:1">
+                    <input type="text" name="name" required>
+                    <label>Username</label>
+                    <i class='bx bxs-user'></i>
+                </div>
+
+           <div class="input-box animation" style="--i:19; --j:2">
+             <input type="email" name="email" id="emailInput" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|org|net|in|edu|gov|co|info)$" title="Enter a valid email address like abc@gmail.com">
+             <label>Email</label>
+             <i class='bx bxs-envelope'></i>
+             <span id="emailFeedback" style="color: red; font-size: 12px; margin-top: 4px; display: block;"></span>
+        </div>
+
+
+                <div class="input-box animation" style="--i:20; --j:3">
+                    <input type="password" name="password" required>
+                    <label>Password</label>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+
+                <button type="submit" class="btn animation" style="--i:21;--j:4">Sign Up</button>
+
+                <div class="linkTxt animation" style="--i:22; --j:5">
+                    <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="info-text register">
+            <h2 class="animation" style="--i:17; --j:0;">Welcome!</h2>
+            <p class="animation" style="--i:18; --j:1;">Register here</p>
+        </div>
+
+    </div>
+
+     <script>
+        const wrapper = document.querySelector('.wrapper');
+        const registerLink = document.querySelector('.register-link');
+        const loginLink = document.querySelector('.login-link');
+
+        registerLink.onclick = () => {
+            wrapper.classList.add('active');
+        }
+
+        loginLink.onclick = () => {
+            wrapper.classList.remove('active');
+        }
+
+        // Flash message auto-hide
+        setTimeout(() => {
+            const flash = document.querySelector('.flash-message');
+            if (flash) {
+                flash.style.opacity = '0';
+                setTimeout(() => flash.remove(), 500);
+            }
+        }, 4000);
+
+        // Email domain validation
+        const allowedDomains = [
+            "gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "protonmail.com", "icloud.com",
+            "rediffmail.com", "edu.in", "gov.in", "co.in", "aol.com"
+        ];
+
+        const blockedDomains = [
+            "mailinator.com", "12.com", "test.com", "fake.com", "tempmail.com", "guerrillamail.com"
+        ];
+
+        const emailInput = document.getElementById("emailInput");
+        const emailFeedback = document.getElementById("emailFeedback");
+
+        emailInput.addEventListener("input", function () {
+            const email = this.value.trim();
+            const domain = email.split('@')[1]?.toLowerCase();
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                emailFeedback.textContent = "❌ Invalid email format.";
+            } else if (blockedDomains.includes(domain)) {
+                emailFeedback.textContent = "❌ This domain is blocked.";
+            } else if (!allowedDomains.includes(domain)) {
+                emailFeedback.textContent = "⚠️ Only specific domains like gmail, yahoo, etc. are allowed.";
+            } else {
+                emailFeedback.textContent = "";
+            }
+        });
+
+        document.querySelector('.form-box.register form').addEventListener('submit', function (e) {
+            const email = emailInput.value.trim();
+            const domain = email.split('@')[1]?.toLowerCase();
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                e.preventDefault();
+                emailFeedback.textContent = "❌ Invalid email format.";
+                alert("Invalid email format.");
+            } else if (blockedDomains.includes(domain)) {
+                e.preventDefault();
+                emailFeedback.textContent = "❌ This domain is blocked.";
+                alert("This domain is not allowed.");
+            } else if (!allowedDomains.includes(domain)) {
+                e.preventDefault();
+                emailFeedback.textContent = "⚠️ Only popular email domains are allowed.";
+                alert("Only specific email domains are allowed.");
+            }
+        });
+    </script>
+
+</body>
+</html>

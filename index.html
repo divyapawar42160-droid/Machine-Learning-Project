@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Intelligent Health Advisor System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: #121417;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+  color: #cbd5e1;
+  transition: color 0.3s ease;
+}
+a:hover, a:focus {
+  color: #7dd3fc; /* Soft light blue */
+  outline: none;
+}
+
+nav.navbar {
+  background: #1f2937;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-weight: 600;
+  padding: 0.7rem 0;
+}
+
+.navbar-brand {
+  color: #60a5fa !important; /* Calmer blue */
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  user-select: none;
+}
+
+.navbar-nav .nav-link {
+  color: #cbd5e1 !important;
+  font-size: 1.05rem;
+  margin-left: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+  color: #93c5fd !important; /* Soft hover blue */
+  background: rgba(147, 197, 253, 0.12);
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  padding: 180px 20px 200px; /* Increase top and bottom padding */
+  min-height: 700px;
+  text-align: center;
+  box-shadow: inset 0 0 80px rgba(96, 165, 250, 0.2); /* Very soft glow */
+  user-select: none;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.7)),
+              url("{{ url_for('static', filename='image.jpg') }}") no-repeat center center / cover;
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 0.3em;
+  letter-spacing: 0.05em;
+  color:white;
+  text-shadow: 0 0 8px rgba(96, 165, 250, 0.3);
+}
+
+.hero-section p {
+  font-size: 1.3rem;
+  margin-bottom: 1.8em;
+  color: white;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-primary {
+  background: #60a5fa;
+  border: none;
+  padding: 0.85rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 40px;
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.4);
+  color: #f0f9ff;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background: #3b82f6;
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.5);
+  color: #f0f9ff;
+  outline: none;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 80px;
+  margin-bottom: 40px;
+  color: #60a5fa;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 6px rgba(96, 165, 250, 0.3);
+}
+
+.feature-card {
+  background: #1e293b;
+  border-radius: 20px;
+  padding: 2.5rem 1.8rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  color: #cbd5e1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(96, 165, 250, 0.3);
+  color: #93c5fd;
+}
+
+.feature-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  user-select: none;
+  color: #60a5fa;
+  text-shadow: 0 0 6px rgba(96, 165, 250, 0.3);
+}
+
+.feature-card h5 {
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.feature-card p {
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+
+footer {
+  background: #1f2937;
+  padding: 28px 0;
+  text-align: center;
+  color: #64748b;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  border-top: 1px solid #334155;
+  user-select: none;
+}
+
+@media (max-width: 576px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+  .hero-section p {
+    font-size: 1.1rem;
+  }
+  .feature-icon {
+    font-size: 3.2rem;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container-fluid ps-3">
+      <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 40px; width: 40px; margin-right: 2px; margin-left: 2px;" />
+Health Advisor</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link active" href="{{ url_for('index') }}">🏠 Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">ℹ️ About</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">📰 Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">📞 Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('diagnosis') }}">🧪 Diagnosis</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('history') }}">🕓 History</a></li>
+          <li class="nav-item"><a class="nav-link text-danger" href="{{ url_for('logout') }}">🚪 Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1>Your Health, Our Priority</h1>
+      <p>Empowering you with AI-driven healthcare insights and information.</p>
+      <a href="{{ url_for('diagnosis') }}" class="btn btn-primary btn-lg mt-3">Start Diagnosis</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="container">
+    <h2 class="section-title">Why Choose Us?</h2>
+    <div class="row gy-4">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h5>AI-Powered Diagnosis</h5>
+          <p>Accurate predictions using machine learning trained on real medical data.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">📚</div>
+          <h5>Educational Resources</h5>
+          <p>Helpful articles and tips to boost your health knowledge and awareness.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h5>24/7 Support</h5>
+          <p>We're here whenever you need us with email and phone support options.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Medical Health Center. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

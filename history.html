@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ username }}'s Diagnosis History</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    body {
+      background-color: #121417;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.7)),
+              url("{{ url_for('static', filename='image.jpg') }}") no-repeat center center / cover;
+    }
+
+    nav.navbar {
+  background: #1f2937;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-weight: 600;
+  padding: 0.7rem 0;
+}
+
+.navbar-brand {
+  color: #60a5fa !important; /* Calmer blue */
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  user-select: none;
+}
+
+.navbar-nav .nav-link {
+  color: #cbd5e1 !important;
+  font-size: 1.05rem;
+  margin-left: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+  color: #93c5fd !important; /* Soft hover blue */
+  background: rgba(147, 197, 253, 0.12);
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+    .container-history {
+  background-color: rgba(30, 41, 59, 0.5); /* semi-transparent */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  max-width: 900px;
+  margin: 70px auto;
+  border-radius: 16px;
+  padding: 40px 50px;
+  box-shadow: 0 4px 20px rgba(34, 211, 238, 0.15); /* soft subtle glow */
+  border: 1px solid rgba(255, 255, 255, 0.06); /* optional soft edge */
+}
+
+
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #60a5fa;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .history-entry {
+      background: #273142;
+      border-left: 4px solid  #60a5fa;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 24px;
+    }
+
+    .history-entry h3 {
+      color: #60a5fa;
+      margin-bottom: 12px;
+    }
+
+    .meta, .label {
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 30px;
+      text-align: center;
+      color:  #60a5fa;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .no-history {
+      text-align: center;
+      color: #94a3b8;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .container-history {
+        padding: 30px 25px;
+        margin: 50px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+     <div class="container-fluid ps-3">
+      <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 40px; width: 40px; margin-right: 2px; margin-left: 2px;" />
+Health Advisor</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">🏠 Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">ℹ️ About</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">📰 Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">📞 Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('diagnosis') }}">🧪 Diagnosis</a></li>
+          <li class="nav-item"><a class="nav-link active" href="{{ url_for('history') }}">🕓 History</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- History Container -->
+  <div class="container-history">
+    <h1>{{ username }}'s Diagnosis History</h1>
+
+    {% if history %}
+      {% for entry in history %}
+        <div class="history-entry">
+          <h3>{{ entry['disease'] }}</h3>
+          <p class="meta"><span class="label">Date:</span> {{ entry['date'] }}</p>
+          <p><span class="label">Symptoms:</span> {{ entry['symptoms'] }}</p>
+          <p><span class="label">Description:</span> {{ entry['description'] }}</p>
+          <p><span class="label">Precautions:</span> {{ entry['precautions'] }}</p>
+          
+          <p><span class="label">Diet:</span> {{ entry['diet'] }}</p>
+          <p><span class="label">Workout:</span> {{ entry['workout'] }}</p>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="no-history">No diagnosis history found.</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="back-link">← Back to Home</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

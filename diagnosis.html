@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Disease Predictor - Health Advisor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+ <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+  background-color: #121417;
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.7)),
+              url("{{ url_for('static', filename='image.jpg') }}") no-repeat center center / cover;
+}
+
+/* Navbar */
+nav.navbar {
+  background: #1f2937;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-weight: 600;
+  padding: 0.7rem 0;
+}
+
+.navbar-brand {
+  color: #60a5fa !important; /* Calmer blue */
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  user-select: none;
+}
+
+.navbar-nav .nav-link {
+  color: #cbd5e1 !important;
+  font-size: 1.05rem;
+  margin-left: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:hover {
+  color: #93c5fd !important; /* Soft hover blue */
+  background: rgba(147, 197, 253, 0.12);
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+/* Main Container */
+main.container {
+  background-color: rgba(31, 41, 55, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  max-width: 900px;
+  margin: 70px auto 80px;
+  border-radius: 16px;
+  padding: 40px 50px;
+  box-shadow: 0 6px 24px rgba(94, 234, 212, 0.18);
+  user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+h2 {
+  color: #60a5fa; /* Calm teal */
+  font-weight: 700;
+  font-size: 2.2rem;
+  text-align: center;
+  margin-bottom: 30px;
+  letter-spacing: 0.05em;
+}
+
+label {
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.form-control {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+}
+
+.btn-primary {
+  background: linear-gradient(to right,#60a5fa, #67e8f9);
+  border: none;
+  font-weight: 600;
+  color: #0f172a;
+  box-shadow: 0 2px 6px rgba(94, 234, 212, 0.25);
+}
+
+.badge {
+  background-color: #334155;
+  color: #e2e8f0;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.badge:hover {
+  background-color: #60a5fa;
+  color: #0f172a;
+}
+
+.btn-outline-info,
+.btn-outline-light,
+.btn-outline-success,
+.btn-outline-warning,
+.btn-outline-secondary {
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.modal-content {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(100, 116, 139, 0.2);
+}
+
+.modal-header {
+  background-color: #1e293b;
+  border-bottom: 2px solid #67e8f9;
+}
+
+.modal-title {
+  color: #5eead4;
+  font-weight: 600;
+}
+
+.btn-close {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  main.container {
+    padding: 30px 25px;
+    margin: 50px 15px 60px;
+  }
+
+  h2 {
+    font-size: 1.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  .badge {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+   <div class="container-fluid ps-3">
+      <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 40px; width: 40px; margin-right: 2px; margin-left: 2px;" />
+Health Advisor</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('index') if session.get('user_id') else url_for('login') }}">🏠 Home</a>
+</li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">ℹ️ About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('blog') }}">📰 Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">📞 Contact</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{{ url_for('diagnosis') }}">🧪 Diagnosis</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('history') }}">🕓 History</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Diagnosis Form -->
+<main class="container" role="main" aria-label="AI Disease Predictor">
+  <h2>🧠 AI Disease Predictor</h2>
+
+  {% if message %}
+    <div class="alert alert-warning text-center">{{ message }}</div>
+  {% endif %}
+
+  <form method="POST" action="/predict" id="diagnosisForm">
+    <div class="mb-4">
+      <label for="symptoms">📝 Enter symptoms (comma-separated):</label>
+      <input type="text" id="symptoms" name="symptoms" class="form-control" placeholder="e.g. headache, nausea" required>
+    </div>
+
+    <div class="mb-4">
+      <label>💡 Click to add symptoms:</label>
+      <div class="bg-dark p-3 rounded" style="max-height: 200px; overflow-y: auto;">
+        {% for symptom in symptoms %}
+          <span class="badge symptom-badge">{{ symptom }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary px-5 py-2">🔍 Predict</button>
+    </div>
+  </form>
+
+  <!-- Result Section -->
+  <div id="result-section" class="text-center mt-5" style="display: {% if disease %}block{% else %}none{% endif %};">
+    <h4 class="mb-4 text-light">📝 View Health Details</h4>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <button class="btn btn-outline-info" onclick="showMessage('Disease', resultData.disease)">🦠 Disease</button>
+      <button class="btn btn-outline-light" onclick="showMessage('Description', resultData.description)">📃 Description</button>
+      <button class="btn btn-outline-success" onclick="showMessage('Precautions', resultData.precautions)">🛡️ Precautions</button>
+      <button class="btn btn-outline-warning" onclick="showMessage('Diet', resultData.diet)">🥗 Diet</button>
+      <button class="btn btn-outline-secondary" onclick="showMessage('Workout', resultData.workout)">🏋️ Workout</button>
+    </div>
+  </div>
+</main>
+
+<!-- Modal Popup -->
+<div class="modal fade" id="popupModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="popupTitle"></h5>
+      </div>
+      <div class="modal-body" id="popupContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  const badges = document.querySelectorAll('.symptom-badge');
+  const input = document.getElementById('symptoms');
+
+  badges.forEach(badge => {
+    badge.addEventListener('click', () => {
+      const text = badge.textContent.trim();
+      let current = input.value.split(',').map(s => s.trim()).filter(Boolean);
+      if (!current.includes(text)) {
+        current.push(text);
+        input.value = current.join(', ');
+      }
+    });
+  });
+
+  const resultData = {
+    disease: "{{ disease|escape }}",
+    description: "{{ description|escape }}",
+    precautions: "{{ precautions|escape }}",
+    diet: "{{ diet|safe }}",
+    workout: "{{ workout|escape }}"
+  };
+
+  function showMessage(title, content) {
+    document.getElementById('popupTitle').textContent = title;
+    document.getElementById('popupContent').textContent = content || 'No information available.';
+    const popup = new bootstrap.Modal(document.getElementById('popupModal'));
+    popup.show();
+  }
+
+  document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
+    const input = document.getElementById('symptoms');
+    const symptoms = input.value.split(',').map(s => s.trim()).filter(Boolean);
+
+    if (symptoms.length < 3 || symptoms.length > 4) {
+      e.preventDefault(); // Stop form submission
+      alert('Please enter at least 3 and at most 4 symptoms.');
+    }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
